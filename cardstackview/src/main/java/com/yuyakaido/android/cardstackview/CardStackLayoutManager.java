@@ -537,11 +537,13 @@ public class CardStackLayoutManager
     }
 
     private void smoothScrollToNext(int position) {
-        state.proportion = 0.0f;
-        state.targetPosition = position;
-        CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.AutomaticSwipe, this);
-        scroller.setTargetPosition(state.topPosition);
-        startSmoothScroll(scroller);
+        if (position >= 0) {
+            state.proportion = 0.0f;
+            state.targetPosition = position;
+            CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.AutomaticSwipe, this);
+            scroller.setTargetPosition(state.topPosition);
+            startSmoothScroll(scroller);
+        }
     }
 
     private void smoothScrollToPrevious(int position) {
