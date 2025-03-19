@@ -3,6 +3,7 @@ package com.yuyakaido.android.cardstackview;
 import android.content.Context;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -327,27 +328,31 @@ public class CardStackLayoutManager
         final int parentRight = getWidth() - getPaddingLeft();
         final int parentBottom = getHeight() - getPaddingBottom();
         for (int i = state.topPosition; i < state.topPosition + setting.visibleCount && i < getItemCount(); i++) {
-            View child = recycler.getViewForPosition(i);
-            addView(child, 0);
-            measureChildWithMargins(child, 0, 0);
-            layoutDecoratedWithMargins(child, parentLeft, parentTop, parentRight, parentBottom);
+            try {
+                View child = recycler.getViewForPosition(i);
+                addView(child, 0);
+                measureChildWithMargins(child, 0, 0);
+                layoutDecoratedWithMargins(child, parentLeft, parentTop, parentRight, parentBottom);
 
-            resetTranslation(child);
-            resetScale(child);
-            resetRotation(child);
-            resetOverlay(child);
-
-            if (i == state.topPosition) {
-                updateTranslation(child);
+                resetTranslation(child);
                 resetScale(child);
-                updateRotation(child);
-                updateOverlay(child);
-            } else {
-                int currentIndex = i - state.topPosition;
-                updateTranslation(child, currentIndex);
-                updateScale(child, currentIndex);
                 resetRotation(child);
                 resetOverlay(child);
+
+                if (i == state.topPosition) {
+                    updateTranslation(child);
+                    resetScale(child);
+                    updateRotation(child);
+                    updateOverlay(child);
+                } else {
+                    int currentIndex = i - state.topPosition;
+                    updateTranslation(child, currentIndex);
+                    updateScale(child, currentIndex);
+                    resetRotation(child);
+                    resetOverlay(child);
+                }
+            } catch (Exception e){
+                Log.e("CardStackLayoutManager","Invalid RecyclerView Access", e);
             }
         }
 
