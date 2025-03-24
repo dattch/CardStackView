@@ -546,7 +546,7 @@ public class CardStackLayoutManager
             state.proportion = 0.0f;
             state.targetPosition = position;
             CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.AutomaticSwipe, this);
-            scroller.setTargetPosition(state.topPosition);
+            scroller.setTargetPosition(position);
             startSmoothScroll(scroller);
         }
     }
